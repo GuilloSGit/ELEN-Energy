@@ -1,4 +1,4 @@
-# 2. Brief de Marketing: Estrategia de Crecimiento B2B
+# Brief de Marketing: Estrategia de Crecimiento B2B
 
 Estrategia para conectar la oferta europea con la demanda argentina.
 
