@@ -1,4 +1,4 @@
-# 3. Brief Estratégico: Roadmap y Viabilidad
+# Brief Estratégico: Roadmap y Viabilidad
 
 Este documento define la hoja de ruta para llevar el proyecto de la idea a la escala.
 
