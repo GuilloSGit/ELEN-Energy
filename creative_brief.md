@@ -1,4 +1,4 @@
-# 1. Brief Creativo: ELEN Energy
+# Brief Creativo:
 
 Este documento define la base conceptual, visual y verbal para la plataforma de importación de maquinaria Europa-Argentina.
 
