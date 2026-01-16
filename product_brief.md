@@ -1,4 +1,4 @@
-# 4. Brief de Producto: Funcionalidad y UX
+# Brief de Producto: Funcionalidad y UX
 
 Definición de la experiencia de usuario y arquitectura del sistema.
 
