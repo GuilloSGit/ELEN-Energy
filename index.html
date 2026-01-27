@@ -4,7 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="favicon.png">
+
+    <!-- Title -->
     <title>ELEN Energy - Documentación</title>
+
     <!-- Marked Library for Markdown Parsing -->
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <!-- Google Fonts -->
@@ -15,6 +21,23 @@
         rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 
+    <!-- SEO -->
+    <meta name="description" content="Documentación de ELEN Energy: briefs y arquitectura del proyecto.">
+    <meta name="robots" content="index, follow">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="es-ES">
+    <meta property="og:title" content="ELEN Energy - Documentación">
+    <meta property="og:description" content="Documentación de ELEN Energy: briefs y arquitectura del proyecto.">
+    <meta name="twitter:card" content="summary">
+    <meta name="keywords" content="ELEN Energy, briefs, arquitectura, proyecto">
+    <!-- author info -->
+    <meta name="author" content="Guillermo Andrada">
+    <meta name="author:email" content="guillermoandrada+elenenergy@gmail.com">
+    <meta name="author:phone" content="+54 9 387 629-5801">
+    <meta name="author:whatsapp" content="https://wa.me/5493876295801">
+    <meta name="author:url" content="https://github.com/GuilloSGit">
+
+
 </head>
 
 <body>
@@ -22,7 +45,7 @@
     <nav id="sidebar">
         <div class="sidebar-header">
             <!-- <h1>ELEN Energy</h1> -- content set by user, keeping as is but ensuring structure -->
-            <h1>ELEN Energy</h1>
+            <h2>ELEN Energy</h2>
             <p>Project Documentation</p>
         </div>
         <ul class="file-list" id="file-list">
@@ -57,10 +80,10 @@
         function init() {
             renderSidebar();
 
-            // Auto-load headers for cleaner titles if needed, 
-            // but for now, we just auto-load the first file if available
             if (files.length > 0) {
-                loadFile(files[0]);
+                const lastPath = localStorage.getItem('lastOpenedFile');
+                const lastFile = lastPath ? files.find(f => f.path === lastPath) : null;
+                loadFile(lastFile || files[0]);
             }
         }
 
@@ -89,18 +112,29 @@
                 viewerEl.innerHTML = '<div class="status-message">Cargando...</div>';
 
                 const response = await fetch(file.path);
-
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
 
                 const text = await response.text();
-
-                // Parse markdown
                 viewerEl.innerHTML = marked.parse(text);
-
-                // Scroll to top of the viewer (no longer #main-content)
                 viewerEl.scrollTop = 0;
+
+                // SEO dinámico: título y descripciones a partir del contenido cargado
+                const firstHeading = viewerEl.querySelector('h1, h2, h3');
+                const firstPara = viewerEl.querySelector('p');
+                const pageTitle = firstHeading ? `${firstHeading.textContent} - ELEN Energy` : `${file.name} - ELEN Energy`;
+                document.title = pageTitle;
+                const desc = firstPara ? firstPara.textContent.trim().slice(0, 160) : `Contenido de ${file.name} en la documentación de ELEN Energy.`;
+                const metaDesc = document.querySelector('meta[name="description"]');
+                if (metaDesc) metaDesc.setAttribute('content', desc);
+                const ogTitle = document.querySelector('meta[property="og:title"]');
+                if (ogTitle) ogTitle.setAttribute('content', pageTitle);
+                const ogDesc = document.querySelector('meta[property="og:description"]');
+                if (ogDesc) ogDesc.setAttribute('content', desc);
+
+                // Guarda el último archivo abierto
+                localStorage.setItem('lastOpenedFile', file.path);
 
             } catch (error) {
                 console.error('Error loading markdown:', error);
