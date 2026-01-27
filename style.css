@@ -1,0 +1,324 @@
+:root {
+    --bg-sidebar: #0f172a;
+    --bg-content: #f8fafc;
+    --text-sidebar: #94a3b8;
+    --text-sidebar-hover: #f8fafc;
+    --text-primary: #334155;
+    --text-heading: #1e293b;
+    --border-color: #e2e8f0;
+    --accent: #3b82f6;
+    --accent-hover: #2563eb;
+
+    --spacing-sm: 0.5rem;
+    --spacing-md: 1rem;
+    --spacing-lg: 2rem;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
+    background-color: var(--bg-content);
+    color: var(--text-primary);
+}
+
+/* Sidebar Styling */
+#sidebar {
+    width: 280px;
+    background-color: var(--bg-sidebar);
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid var(--border-color);
+    transition: transform 0.3s ease;
+}
+
+.sidebar-header {
+    padding: var(--spacing-lg) var(--spacing-md);
+    border-bottom: 1px solid #1e293b;
+}
+
+.sidebar-header h1 {
+    color: #f1f5f9;
+    font-size: 1.25rem;
+    font-weight: 700;
+}
+
+.sidebar-header p {
+    color: #64748b;
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+}
+
+.file-list {
+    list-style: none;
+    padding: var(--spacing-md);
+    overflow-y: auto;
+    flex-grow: 1;
+}
+
+.file-item {
+    margin-bottom: 2px;
+}
+
+.file-button {
+    width: 100%;
+    text-align: left;
+    background: none;
+    border: none;
+    padding: 0.75rem 1rem;
+    color: var(--text-sidebar);
+    cursor: pointer;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.file-button:hover {
+    background-color: #1e293b;
+    color: var(--text-sidebar-hover);
+}
+
+.file-button.active {
+    background-color: var(--accent);
+    color: white;
+}
+
+.file-button svg {
+    width: 18px;
+    height: 18px;
+    opacity: 0.7;
+}
+
+/* Main Content Styling - Fixed with internal scroll */
+#main-content {
+    flex-grow: 1;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    /* Align top, but padding will center vertically somewhat */
+    padding: var(--spacing-lg);
+    position: relative;
+}
+
+.viewer-wrapper {
+    width: 100%;
+    max-width: 850px;
+    height: calc(100vh - 4rem);
+    /* Viewport - padding */
+    position: relative;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    /* Contains the scroll and blur */
+}
+
+#markdown-viewer {
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+    padding: 3rem;
+    padding-bottom: 5rem;
+    /* Extra space for blur area */
+}
+
+/* Blur Effect */
+.blur-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 80px;
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1) 90%);
+    pointer-events: none;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+
+/* Custom Scrollbar for the viewer */
+#markdown-viewer::-webkit-scrollbar {
+    width: 8px;
+}
+
+#markdown-viewer::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+#markdown-viewer::-webkit-scrollbar-thumb {
+    background-color: #cbd5e1;
+    border-radius: 4px;
+    border: 2px solid #ffffff;
+}
+
+/* Typography / Markdown Styles */
+.markdown-body {
+    line-height: 1.6;
+    font-size: 16px;
+}
+
+.markdown-body h1 {
+    font-size: 2.25rem;
+    margin-bottom: 1.5rem;
+    color: var(--text-heading);
+    letter-spacing: -0.025em;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 0.5rem;
+}
+
+.markdown-body h2 {
+    font-size: 1.75rem;
+    margin-top: 2.5rem;
+    margin-bottom: 1rem;
+    color: var(--text-heading);
+    letter-spacing: -0.025em;
+}
+
+.markdown-body h3 {
+    font-size: 1.35rem;
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+    color: var(--text-heading);
+}
+
+.markdown-body p {
+    margin-bottom: 1.25rem;
+}
+
+.markdown-body ul,
+.markdown-body ol {
+    margin-bottom: 1.25rem;
+    padding-left: 1.5rem;
+}
+
+.markdown-body li {
+    margin-bottom: 0.5rem;
+}
+
+.markdown-body pre {
+    background-color: #f1f5f9;
+    padding: 1rem;
+    border-radius: 6px;
+    overflow-x: auto;
+    margin-bottom: 1.5rem;
+    border: 1px solid var(--border-color);
+}
+
+.markdown-body code {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.9em;
+    background-color: #f1f5f9;
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    color: #ef4444;
+}
+
+.markdown-body pre code {
+    background-color: transparent;
+    padding: 0;
+    color: #334155;
+}
+
+.markdown-body blockquote {
+    border-left: 4px solid var(--accent);
+    padding-left: 1rem;
+    color: #64748b;
+    font-style: italic;
+    margin-bottom: 1.25rem;
+}
+
+.markdown-body hr {
+    border: 0;
+    height: 1px;
+    background: var(--border-color);
+    margin: 3rem 0;
+}
+
+.markdown-body table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 1.5rem;
+}
+
+.markdown-body th,
+.markdown-body td {
+    border: 1px solid var(--border-color);
+    padding: 0.75rem;
+    text-align: left;
+}
+
+.markdown-body th {
+    background-color: #f8fafc;
+    font-weight: 600;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    body {
+        flex-direction: column;
+    }
+
+    #sidebar {
+        width: 100%;
+        height: auto;
+        border-right: none;
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    .file-list {
+        display: flex;
+        overflow-x: auto;
+        padding: 0.5rem;
+        gap: 0.5rem;
+    }
+
+    .file-button {
+        width: auto;
+        white-space: nowrap;
+        padding: 0.5rem 1rem;
+    }
+
+    #main-content {
+        padding: 1rem;
+        height: auto;
+        flex-grow: 1;
+        overflow-y: hidden;
+    }
+
+    .viewer-wrapper {
+        height: calc(100vh - 180px);
+        /* Increased margin from bottom */
+    }
+
+    /* Adjust based on header height approx */
+    #markdown-viewer {
+        padding: 1.5rem;
+        padding-bottom: 8rem;
+        /* More scroll space to clear the blur */
+    }
+
+    .sidebar-header {
+        padding: 1rem;
+    }
+}
+
+/* Loading & Error States */
+.status-message {
+    text-align: center;
+    color: #64748b;
+    margin-top: 4rem;
+}
