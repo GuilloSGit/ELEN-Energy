@@ -4,12 +4,18 @@ Moneda: USD (impuestos y retenciones no incluidos)
 
 1) Alcance (MVP)
 - Scraper (Python): extracción periódica desde fuentes europeas.
-- DB Writer (Node.js): normalización mínima e inserción/actualización en PostgreSQL (incluye columna JSONB para atributos variables + índices GIN).
+- DB Writer (Node.js): Inserción/actualización en PostgreSQL, con una capa básica de saneamiento y normalización de datos que incluya:
+    Unificación de campos clave: Conversión de fechas a formato ISO (YYYY-MM-DD), extracción de valores numéricos desde strings, normalización de espacios y caracteres en textos.
+    Estructuración mínima en JSONB: Garantizar que atributos críticos para filtros (ej: year, price_amount, currency) se guarden como campos estructurados dentro del JSONB, además del texto crudo.
+    Trazabilidad: Almacenar tanto el valor original como el normalizado.
 - Base de Datos (PostgreSQL): esquema de catálogo y leads; preparación para particionamiento por categoría/fecha.
 - API mínima/Endpoints internos: lectura básica para el Frontend y Back Office.
 - Frontend (Web estática o React ligero): Home, Catálogo con filtros básicos, Ficha de producto con CTA “Solicitar cotización”.
 - Admin Back Office: ABM de productos, visualización/export de leads.
-- DevOps: Docker/Compose, entornos (dev/stage/prod) simples, CI/CD básico.
+- DevOps: Contenedorización con Docker/Compose, configuración de entornos (dev/stage/prod) en un proveedor cloud (ej: Hetzner, AWS), pipeline de CI para pruebas básicas y despliegue manual a producción.
+
+> Exclusión por prueba de impacto (pospuesto para siguiente sprint):
+Lógica de Curación de Datos (AI Curator): Limpieza y normalización básica de datos extraídos (unificación de formatos de fecha, moneda y medidas; limpieza de texto; clasificación simple de la condición del equipo).
 
 2) Equipo y tarifas mensuales
 - Frontend Developer: USD 1,500/mes
@@ -61,17 +67,21 @@ Rango estimado mensual: USD 180–430.
 - Integraciones de pago/logística avanzadas: fuera de alcance MVP.
 - Contenido (copys, imágenes) provisto por el cliente o por equipos de marketing/diseño.
 - Datos de origen accesibles sin bloqueo legal/contractual; si se requieren credenciales, las provee el cliente.
+- La entrega de diseños UI/UX (en formato Figma) con componentes especificados y assets exportables se realizará según el cronograma acordado en el kick-off del proyecto (Sprint 0), para permitir una integración eficiente.
 
 9) Condiciones comerciales sugeridas
 - Pago 20% al inicio de cada mes; 50% contra hitos mensuales (Semana 4 y Semana 8).
 - Vencimiento de factura: 7 días.
 - Vigencia de la propuesta: 30 días.
 
-10) Opcionales (presupuestables aparte)
-- API pública de lectura, autenticación y rate limiting.
-- Tracking visual avanzado y panel de pedidos.
-- Sistema de alertas automáticas por producto (email/WhatsApp).
-- Observabilidad (dashboards, alertas Prometheus/Grafana) y hardening de seguridad.
+10) Opcionales (Roadmap Post-MVP - presupuestables aparte)
+Prioridad sugerida para maximizar el retorno de inversión:
+1 - Sistema de alertas automáticas por producto (email/WhatsApp): Para generar leads calificados.
+2 - API pública de lectura con autenticación básica: Para habilitar integraciones.
+3 - Tracking visual avanzado y panel de pedidos: Para reducir la ansiedad del cliente.
+4 - Observabilidad (dashboards, alertas) y hardening de seguridad: Para escalar con confianza.
+
+
 
 Contacto
 - Proyecto: ELEN Energy
