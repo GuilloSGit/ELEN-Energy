@@ -2,7 +2,7 @@ ELEN Energy — Presupuesto de Desarrollo (Software)
 Fecha: 2026-02-02
 Moneda: USD (impuestos y retenciones no incluidos)
 
-1) Alcance (MVP alineado al diagrama)
+1) Alcance (MVP)
 - Scraper (Python): extracción periódica desde fuentes europeas.
 - DB Writer (Node.js): normalización mínima e inserción/actualización en PostgreSQL (incluye columna JSONB para atributos variables + índices GIN).
 - Base de Datos (PostgreSQL): esquema de catálogo y leads; preparación para particionamiento por categoría/fecha.
@@ -12,15 +12,12 @@ Moneda: USD (impuestos y retenciones no incluidos)
 - DevOps: Docker/Compose, entornos (dev/stage/prod) simples, CI/CD básico.
 
 2) Equipo y tarifas mensuales
-- Líder Técnico / Full‑Stack (usted): USD 2,000/mes
-  Justificación: definición de arquitectura, DB/índices, API/DB Writer, guía del equipo y soporte a Frontend.
-- Frontend Developer: USD 500/mes
+- Frontend Developer: USD 1,500/mes
   Justificación: implementación ágil de vistas (Catálogo, Ficha, Home) con su soporte directo.
-- Backend/Integraciones (asistente): USD 2,000/mes
-  Justificación: Scraper, pipelines, endpoints internos, Dockerización y despliegues.
+- Backend/Integraciones (asistente): USD 3,500/mes
+  Justificación: definición de arquitectura, DB/índices, API/DB Writer, Scraper, pipelines, endpoints internos, Dockerización y despliegues.
 
-Sub‑total mensual Desarrollo: USD 4,500/mes.
-Lo que al completar el MVP sería: USD 9,000.
+Sub‑total mensual Desarrollo + DevOps: USD 5,000/mes.
 
 3) Plan por fases (estimado)
 - Fase 1 — Setup & Datos (Semana 1-5)
@@ -33,7 +30,7 @@ Lo que al completar el MVP sería: USD 9,000.
   • End‑to‑end desde scraping hasta consulta en el Frontend.
 
 Duración total estimada MVP: 2 meses (8 semanas)
-Costo estimado MVP (solo desarrollo): USD 9,400
+Costo estimado MVP (desarrollo + DevOps): USD 10,000
 
 4) Mantenimiento opcional (post‑MVP)
 - Soporte correctivo y mejoras menores: USD 1,000/mes (hasta 20 h). 
@@ -83,4 +80,4 @@ Contacto
 
 Validez de la propuesta: 15 días
 Fecha de vencimiento: 2026-02-17
-Vencido este día, se considera rechazada.
+Vencido este plazo, se debe trazar un nuevo presupuesto.
