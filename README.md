@@ -23,20 +23,20 @@ El proyecto se encuentra en etapa de desarrollo activo.
 * **Automatización:** Implementación progresiva de scrapers para la obtención de datos de productos.
 
 ### Arquitectura y Stack
-Diseño escalable basado en microservicios y control coherente de flujos de datos.
+Arquitectura mínima evolutiva orientada a componentes.
 
-* **Core:** Node.js, Python, TypeScript.
-* **Frameworks:** NestJS, FastAPI, React.
-* **Data & Messaging:** PostgreSQL, RabbitMQ.
-* **Infraestructura:** Docker, Kubernetes.
+* **Core:** Node.js, Python (TypeScript opcional).
+* **Frameworks:** FastAPI (scraper opcional), React ligero o web estática.
+* **Data:** PostgreSQL (JSONB + índices GIN para atributos variables).
+* **Infraestructura:** Docker, Docker Compose. Kubernetes solo si escala.
 
 **Documentación Técnica:**
-* [Technical Brief](technical_brief.md): Arquitectura detallada y microservicios.
+* [Technical Brief](technical_brief.md): Arquitectura detallada y componentes.
 
 ---
 
 ## 3. Despliegue y Desarrollo
 
-**Requisitos:** Docker, Kubernetes, GitHub Actions.
+**Requisitos:** Docker, Docker Compose (GitHub Actions opcional).
 
-El despliegue es secuencial (Microservicios -> Frontend). El desarrollo sigue las etapas descritas en el [Product Brief](product_brief.md).
+El despliegue es secuencial (Componentes -> Frontend). El desarrollo sigue las etapas descritas en el [Product Brief](product_brief.md).

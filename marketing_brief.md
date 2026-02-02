@@ -1,6 +1,7 @@
 # Brief de Marketing: Estrategia de Crecimiento B2B
 
 Estrategia para conectar la oferta europea con la demanda argentina.
+> Nota de alineación: El MVP prioriza Catálogo + Captura de leads. Las campañas deben llevar a fichas de producto y a “Solicitar cotización/Contacto”.
 
 ---
 

@@ -4,33 +4,29 @@ En este documento definimos las decisiones técnicas y el stack tecnológico par
 
 ---
 
-## 1. Stack Tecnológico por Microservicio
+## 1. Stack Tecnológico por Componente
 
-
-| Microservicio | Tecnología Recomendada | Justificación |
-| --- | --- | --- |
-| System API | NestJS (Node.js/TypeScript) | Arquitectura modular, rendimiento en I/O, escalabilidad |
-| Scraper | FastAPI (Python) | Ecosistema maduro de scraping (BeautifulSoup, Scrapy, Playwright) |
-| AI Curator | FastAPI (Python) | Librerías líderes de IA/ML (scikit-learn, TensorFlow, spaCy) |
-| DB Writer | NestJS (Node.js) | Consistencia con System API, manejo asíncrono de escrituras |
-| Mensajería | RabbitMQ | Simplicidad inicial, colas confiables, clientes en Python y Node.js |
-| Base de Datos | PostgreSQL | Datos estructurados, integridad referencial, JSONB para flexibilidad |
-| Frontend | React con TypeScript | Interfaz moderna, tipado estático, ecosistema robusto |
-
+| Componente       | Tecnología Recomendada                 | Justificación                                           |
+| ---              | ---                                     | ---                                                     |
+| Scraper          | Python (Requests/Playwright o FastAPI)  | Ecosistema maduro para scraping y automatización        |
+| DB Writer        | Node.js (servicio/script ligero)        | Pipeline simple para insertar/actualizar datos          |
+| Base de Datos    | PostgreSQL                              | Integridad + flexibilidad con JSONB; índices GIN para búsquedas rápidas |
+| Frontend         | Web estática o React ligero             | Suficiente para listar/consultar datos al inicio        |
+| Admin Back Office| Página simple protegida                 | Edición/verificación mínima para operar                 |
 
 ## 2. Justificación del Enfoque Mixto
 
-> Python para procesamiento de datos:
+> Python para scraping y procesamiento de datos:
 
     Ventaja en scraping y procesamiento de datos
-    Ecosistema líder en IA/ML para curar y clasificar productos
+    Ecosistema maduro para scraping (Requests, Playwright, BeautifulSoup)
     FastAPI ofrece rendimiento comparable a Node.js
     
-> Node.js para orquestación y APIs:
+> Node.js para escritura en BD y utilidades:
 
     Excelente para I/O asíncrono (conexiones múltiples)
-    NestJS proporciona arquitectura empresarial desde el inicio
-    Unificado con el frontend (TypeScript en ambos lados)
+    Servicio/script ligero para pipelines de datos
+    Opcional: TypeScript para tipado y mejor DX
 
 ## 3. Flujo y Diagrama de Datos
 
@@ -45,10 +41,10 @@ En este documento definimos las decisiones técnicas y el stack tecnológico par
 
 Componente | Fase Inicial | Fase de Escala
 | --- | --- | --- |
-Mensajería | RabbitMQ | Kafka para alto volumen de eventos
-Base de Datos | PostgreSQL básico | Particionamiento por categoría + réplicas
-Despliegue | Docker containers | Kubernetes + orquestación
-API Gateway | NestJS como gateway inicial | Kong/Traefik dedicado
+Colas/Mensajería | No aplica | Agregar RabbitMQ/Kafka si sube el volumen
+Base de Datos | PostgreSQL único | Particionamiento por categoría o fecha + réplicas de lectura
+Despliegue | Docker Compose | Kubernetes/Orquestación si aparecen más servicios
+API de Lectura | No aplica (lectura directa/servicio mínimo) | API dedicada para clientes externos
 
 🐋 Contenedorización:
 
@@ -59,17 +55,17 @@ API Gateway | NestJS como gateway inicial | Kong/Traefik dedicado
 ## 5. Ventajas del Stack Propuesto
 
 ✅ Beneficios Clave:
+
 Ventaja | Impacto
 | --- | --- |
-Separación clara de responsabilidades | Mantenibilidad y debugging sencillo
-Lenguaje óptimo para cada tarea | Máximo rendimiento en cada módulo
-Curva de aprendizaje manejable | TypeScript unifica frontend y backend principal
-Escalabilidad horizontal por microservicio | Escala solo lo necesario, optimiza costos
-Interfaces bien definidas entre servicios | Facilita testing y evolución independiente
+Arquitectura mínima viable | Menor complejidad y time-to-market
+Lenguaje óptimo por tarea (Python/Node) | Eficiencia en scraping y pipelines de datos
+Base sólida en PostgreSQL | Consultas y reportes fiables desde el inicio
+Escalabilidad progresiva | Agregar colas/APIs solo cuando haya demanda
 
 🎯 Ventajas Adicionales:
 
-    🔧 Flexibilidad tecnológica: Puedes reemplazar componentes sin afectar el sistema completo
-    📊 Monitoreo unificado: Compatible con herramientas como Prometheus/Grafana
-    🔐 Seguridad por capas: Cada servicio puede tener su propia política de seguridad
-    🌍 Compatibilidad cloud: Diseñado para despliegue en AWS, GCP o Azure sin modificaciones
+    🔧 Flexibilidad tecnológica: Se pueden agregar servicios (colas, APIs) sin reescribir el núcleo
+    📊 Monitoreo unificado: Compatible con Prometheus/Grafana
+    🔐 Seguridad por capas: Evoluciona desde credenciales simples a políticas por servicio
+    🌍 Compatibilidad cloud: Despliegue en AWS/GCP/Azure sin cambios estructurales
